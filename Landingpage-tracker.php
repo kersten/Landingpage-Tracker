@@ -58,7 +58,9 @@ function landingpage_tracker_checker () {
 	}
 
 	if (isset($general['redirect']) && $general['redirect'] == 1 && $is_match) {
-		header('Location: ' . str_replace($replace, '', $_SERVER['REQUEST_URI']));
+		$redirect = str_replace($replace, '', $_SERVER['REQUEST_URI']);
+
+		header('Location: ' . rtrim(str_replace($replace, '', $_SERVER['REQUEST_URI']), '?'));
 		exit();
 	}
 }

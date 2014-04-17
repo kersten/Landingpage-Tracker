@@ -274,7 +274,13 @@ class LandingpageTrackerSettingsPage
 	{
 		$this->options = (array) get_option( 'landingpage_tracker_cookies' );
 
-		$id = array_keys($input)[0];
+		$keys = array_keys($input);
+
+		if (isset($keys) && isset($keys[0])) {
+			$id = array_keys($input)[0];
+		} else {
+			return;
+		}
 
 		if (!isset($this->options[$id])) {
 			$this->options[$id] = array();
@@ -323,7 +329,7 @@ class LandingpageTrackerSettingsPage
 		foreach ( $input as $key => $value ) {
 			$input[$key] = sanitize_text_field($value);
 		}
-		
+
 		return $input;
 	}
 
