@@ -277,7 +277,7 @@ class LandingpageTrackerSettingsPage
 		$keys = array_keys($input);
 
 		if (isset($keys) && isset($keys[0])) {
-			$id = array_keys($input)[0];
+			$id = $keys[0];
 		} else {
 			return;
 		}
