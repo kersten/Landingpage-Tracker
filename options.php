@@ -166,6 +166,14 @@ class LandingpageTrackerSettingsPage
 		);
 
 		add_settings_field(
+			'lifetime',
+			'Cookie lifetime',
+			array( $this, 'cookie_lifetime_callback' ),
+			'landingpage-tracker-general-admin',
+			'landingpage_tracker_general_section'
+		);
+
+		add_settings_field(
 			'redirect',
 			'Redirect on match',
 			array( $this, 'redirect_callback' ),
@@ -312,7 +320,11 @@ class LandingpageTrackerSettingsPage
 
 	public function sanitize_general( $input )
 	{
-		return array( 'redirect' => sanitize_text_field( $input['redirect'] ) );
+		foreach ( $input as $key => $value ) {
+			$input[$key] = sanitize_text_field($value);
+		}
+		
+		return $input;
 	}
 
 	/**
@@ -398,6 +410,30 @@ class LandingpageTrackerSettingsPage
 		$html = '<input type="text" id="default_cookie_name" name="landingpage_tracker_general[default_cookie_name]" value="' . (($options['default_cookie_name']) ? $options['default_cookie_name'] : 'Organic') . '"/>';
 
 		echo $html;
+	}
+
+	public function cookie_lifetime_callback()
+	{
+		$options = get_option( 'landingpage_tracker_general' );
+		$lifetimes = array(
+			'hour' => '1 hour',
+			'day' => '1 day',
+			'week' => '1 week',
+			'month' => '1 month',
+			'year' => '1 year'
+		);
+
+		$html = '<select id="cookie" name="landingpage_tracker_general[lifetime]">';
+
+		foreach ( $lifetimes as $key => $value ) {
+			$html .= '<option value="' . $key . '" ' . selected($options['lifetime'], $key, false) . '>' . $value. '</option>';
+		}
+
+		$html .= '</select>';
+
+		echo $html;
+
+		//printf('<textarea type="text" id="description" name="landingpage_tracker_trackers[%s][description]" value=""></textarea>', $this->next_tracker_id);
 	}
 }
 

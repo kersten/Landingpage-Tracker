@@ -50,7 +50,7 @@ function landingpage_tracker_checker () {
 			$replace = $tracker['match'];
 
 			if (!isset($_COOKIE['wp_plg_lp_trk']) || (isset($_COOKIE['wp_plg_lp_trk']) && $_COOKIE['wp_plg_lp_trk'] == $tracker['cookie'])) {
-				setcookie('wp_plg_lp_trk', $tracker['cookie'], strtotime('+1 month'), '/');
+				setcookie('wp_plg_lp_trk', $tracker['cookie'], strtotime('+1 ' . ((isset($general['lifetime'])) ? $general['lifetime'] : 'month')), '/');
 			}
 
 			break;
