@@ -303,7 +303,13 @@ class LandingpageTrackerSettingsPage
 	public function sanitize_tracker( $input )
 	{
 		$this->options = (array) get_option( 'landingpage_tracker_trackers' );
-		$id = array_keys($input)[0];
+		$keys = array_keys($input);
+
+		if (isset($keys) && isset($keys[0])) {
+			$id = $keys[0];
+		} else {
+			return;
+		}
 
 		if (!isset($this->options[$id])) {
 			$this->options[$id] = array();
